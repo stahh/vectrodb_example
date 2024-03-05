@@ -2,12 +2,11 @@ import os
 from langchain_community.document_loaders import DirectoryLoader
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.vectorstores import Neo4jVector
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import TensorflowHubEmbeddings
 import logging
 from logging import handlers
 
-from conf import (CHECK_FILE, DIR_NAME, OPENAI_KEY,
-                  NEO4J_PASS, NEO4J_URL, NEO4J_USER)
+from conf import CHECK_FILE, DIR_NAME, NEO4J_PASS, NEO4J_URL, NEO4J_USER
 
 
 def init_db(logger):
@@ -27,7 +26,7 @@ def init_db(logger):
     try:
         Neo4jVector.from_documents(
             docs,
-            OpenAIEmbeddings(openai_api_key=OPENAI_KEY),
+            TensorflowHubEmbeddings(),
             url=NEO4J_URL,
             username=NEO4J_USER,
             password=NEO4J_PASS,

@@ -2,8 +2,10 @@ Flask
 gunicorn
 requests
 langchain
-langchain-openai
 langchain-community
 langchain-text-splitters
 neo4j
 unstructured
+tensorflow-hub
+tensorflow
+tensorflow_text

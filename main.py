@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from langchain_community.vectorstores import Neo4jVector
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import TensorflowHubEmbeddings
 
 # local import
 from conf import NEO4J_URL, NEO4J_PASS, NEO4J_USER
@@ -9,6 +9,7 @@ from helpers import init_logger, init_db
 app = Flask(__name__)
 logger = init_logger(__file__)
 init_db(logger)
+
 
 
 @app.route('/')
@@ -29,7 +30,7 @@ def search():
     to_search = request.json.get('text')
     try:
         hybrid_db = Neo4jVector(
-            OpenAIEmbeddings(),
+            TensorflowHubEmbeddings(),
             url=NEO4J_URL,
             username=NEO4J_USER,
             password=NEO4J_PASS,
