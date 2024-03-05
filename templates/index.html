@@ -1,0 +1,62 @@
+<html>
+<head>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="icon" href="data:;base64,=">
+    <title id="title_search"></title>
+</head>
+
+<body>
+<div style="display:flex; flex-direction: row;">
+
+    <div style="width: 80%;">
+        <div class="input-group mb-3"
+             style="width: 60%; align-content: center; margin: 50px auto;">
+
+            <textarea class="form-control" aria-describedby="basic-addon2"
+                      id="text_area" rows="3" cols="60"></textarea>
+        </div>
+        <div class="input-group-append"
+             style="width: 60%; align-content: center; margin: 50px auto;">
+            <button type="button" class="btn btn-dark" onclick="search()">Search
+            </button>
+        </div>
+        <div id="answers" class="container"
+             style="width: 60%; align-content: center; margin: 50px auto;"></div>
+    </div>
+
+
+</div>
+
+<script>
+            function search() {
+                var main_div = document.getElementById("answers");
+                for (var i=0;i<main_div.childNodes.length;i+1){
+                    main_div.removeChild(main_div.childNodes[i]);
+                }
+                var info = document.createElement("div");
+                var txt = document.getElementById("text_area");
+                info.textContent = "Searching...";
+                main_div.appendChild(info);
+                $.ajax({
+                url: "/search",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({"text": txt.value}),
+                success: function (data) {
+                    console.log(data);
+                    data = JSON.stringify(data["result"], null, '\t');
+                    console.log(data);
+                    info.innerHTML = '<pre>'+data+'</pre>';
+                    txt.value = '';
+                },
+                });
+            };
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+</body>
+</html>
